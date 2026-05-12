@@ -1,0 +1,36 @@
+.app-layout {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+
+  width: 100%;
+  max-width: var(--container-width);
+
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
