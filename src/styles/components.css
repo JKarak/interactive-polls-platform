@@ -471,3 +471,9 @@
       1fr;
   }
 }
+
+.badge--voted {
+  background: #dbeafe;
+
+  color: #1d4ed8;
+}

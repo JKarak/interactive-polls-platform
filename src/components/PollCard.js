@@ -1,30 +1,71 @@
-import { formatDate, isPollExpired } from '../utils/helpers.js';
+import {
+  formatDate,
+  isPollExpired
+} from '../utils/helpers.js';
 
-import { sanitizeObject } from '../utils/sanitizer.js';
+import {
+  sanitizeObject
+} from '../utils/sanitizer.js';
+
+import {
+  hasUserVoted
+} from '../api/mock-data.js';
 
 /**
  * Карточка опроса
  */
 export function PollCard(poll) {
-  const safePoll = sanitizeObject(poll);
+  const safePoll =
+    sanitizeObject(poll);
 
-  const article = document.createElement('article');
+  const article =
+    document.createElement('article');
 
-  article.className = 'card poll-card fade-in';
+  article.className =
+    'card poll-card fade-in';
 
-  const expired = isPollExpired(
-    safePoll.expiresAt
-  );
+  const expired =
+    isPollExpired(
+      safePoll.expiresAt
+    );
+
+  const voted =
+    hasUserVoted(
+      safePoll.id
+    );
+
+  /**
+   * Определение статуса
+   */
+  let statusText = 'Активный';
+
+  let statusClass =
+    'badge--active';
+
+  if (expired) {
+    statusText = 'Завершён';
+
+    statusClass =
+      'badge--closed';
+  }
+
+  if (voted && !expired) {
+    statusText =
+      'Вы участвовали';
+
+    statusClass =
+      'badge--voted';
+  }
 
   article.innerHTML = `
     <div class="poll-card__top">
       <span
         class="
           badge
-          ${expired ? 'badge--closed' : 'badge--active'}
+          ${statusClass}
         "
       >
-        ${expired ? 'Завершён' : 'Активный'}
+        ${statusText}
       </span>
 
       <span class="poll-card__category">
@@ -44,7 +85,9 @@ export function PollCard(poll) {
       <div class="poll-card__meta">
         <span>
           До:
-          ${formatDate(safePoll.expiresAt)}
+          ${formatDate(
+            safePoll.expiresAt
+          )}
         </span>
       </div>
 
@@ -53,7 +96,11 @@ export function PollCard(poll) {
         class="button"
         data-link
       >
-        Открыть
+        ${
+          voted
+            ? 'Результаты'
+            : 'Открыть'
+        }
       </a>
     </div>
   `;
