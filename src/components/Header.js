@@ -1,71 +1,144 @@
-import { navigate } from '../router/router.js';
+import {
+  navigate
+} from '../router/router.js';
 
-/**
- * Header приложения
- */
+import {
+  isAuthenticated,
+  logoutUser
+} from '../utils/auth.js';
+
 export function Header() {
-  const header = document.createElement('div');
+  const header =
+    document.createElement('header');
 
   header.className = 'header';
 
+  const authButtons =
+    isAuthenticated()
+      ? `
+        <button
+          class="button logout-btn"
+        >
+          Выйти
+        </button>
+      `
+      : `
+        <button
+          class="button login-btn"
+        >
+          Вход
+        </button>
+
+        <button
+          class="button register-btn"
+        >
+          Регистрация
+        </button>
+      `;
+
   header.innerHTML = `
     <div class="container header__container">
-      <a
-        href="/"
-        class="header__logo"
-        data-link
-        aria-label="На главную"
-      >
-        VoteFlow
-      </a>
-
-      <nav
-        class="header__nav"
-        aria-label="Главное меню"
-      >
-        <a
-          href="/"
-          class="header__link"
-          data-link
-        >
-          Опросы
-        </a>
-
-        <a
-          href="/create"
-          class="header__link"
-          data-link
-        >
-          Создать
-        </a>
-
-        <a
-          href="/dashboard"
-          class="header__link"
-          data-link
-        >
-          Кабинет
-        </a>
-      </nav>
 
       <button
-        class="button header__mobile-button"
-        aria-label="Открыть меню"
+        class="logo"
+        data-route="/"
       >
-        ☰
+        SuperPoll
       </button>
+
+      <nav class="nav">
+
+        <button
+          class="button nav-button"
+          data-route="/"
+        >
+          Главная
+        </button>
+
+        <button
+          class="button nav-button"
+          data-route="/create"
+        >
+          Создать
+        </button>
+
+        <button
+          class="button nav-button"
+          data-route="/dashboard"
+        >
+          Кабинет
+        </button>
+
+      </nav>
+
+      <div class="header__auth">
+        ${authButtons}
+      </div>
+
     </div>
   `;
 
-  const mobileButton =
-    header.querySelector('.header__mobile-button');
+  /**
+   * SPA navigation
+   */
+  header
+    .querySelectorAll(
+      '[data-route]'
+    )
+    .forEach((button) => {
+      button.addEventListener(
+        'click',
+        () => {
+          navigate(
+            button.dataset.route
+          );
+        }
+      );
+    });
 
-  const nav =
-    header.querySelector('.header__nav');
+  /**
+   * Auth buttons
+   */
+  const loginBtn =
+    header.querySelector(
+      '.login-btn'
+    );
 
-  mobileButton.addEventListener('click', () => {
-    nav.classList.toggle('header__nav--open');
-  });
+  const registerBtn =
+    header.querySelector(
+      '.register-btn'
+    );
+
+  const logoutBtn =
+    header.querySelector(
+      '.logout-btn'
+    );
+
+  if (loginBtn) {
+    loginBtn.addEventListener(
+      'click',
+      () => navigate('/login')
+    );
+  }
+
+  if (registerBtn) {
+    registerBtn.addEventListener(
+      'click',
+      () =>
+        navigate('/register')
+    );
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener(
+      'click',
+      () => {
+        logoutUser();
+
+        window.location.reload();
+      }
+    );
+  }
 
   return header;
 }

@@ -3,6 +3,8 @@ import { PollPage } from '../pages/PollPage.js';
 import { CreatePage } from '../pages/CreatePage.js';
 import { DashboardPage } from '../pages/DashboardPage.js';
 import { NotFoundPage } from '../pages/NotFoundPage.js';
+import { LoginPage } from '../pages/LoginPage.js';
+import { RegisterPage } from '../pages/RegisterPage.js';
 
 /**
  * Таблица маршрутов приложения
@@ -11,7 +13,9 @@ const routes = {
   '/': HomePage,
   '/poll': PollPage,
   '/create': CreatePage,
-  '/dashboard': DashboardPage
+  '/dashboard': DashboardPage,
+  '/login': LoginPage,
+  '/register': RegisterPage
 };
 
 /**
@@ -115,3 +119,4 @@ export function initRouter() {
 
   renderRoute();
 }
+

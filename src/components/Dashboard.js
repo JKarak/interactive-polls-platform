@@ -7,6 +7,10 @@ import { clearStorage } from '../utils/storage.js';
 
 import { PollCard } from './PollCard.js';
 
+import {
+  getCurrentUser
+} from '../utils/auth.js';
+
 /**
  * Личный кабинет
  */
@@ -34,11 +38,15 @@ export function Dashboard() {
         </h1>
 
         <p>
-          Пользователь платформы
+          ${getCurrentUser()?.username ||
+            'Гость'
+            }
         </p>
 
         <p>
-          demo@example.com
+          ${getCurrentUser()?.email ||
+            'Нет email'
+            }
         </p>
       </div>
     </div>
