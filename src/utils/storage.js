@@ -1,51 +1,51 @@
 /**
- * Безопасная запись в localStorage
+ * Получить данные
  */
-export function setStorageItem(key, value) {
+export function getFromStorage(
+  key
+) {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.error('Ошибка записи в localStorage:', error);
-  }
-}
+    const value =
+      localStorage.getItem(key);
 
-/**
- * Безопасное чтение из localStorage
- */
-export function getStorageItem(key, fallback = null) {
-  try {
-    const item = localStorage.getItem(key);
-
-    if (!item) {
-      return fallback;
+    if (!value) {
+      return null;
     }
 
-    return JSON.parse(item);
+    return JSON.parse(value);
   } catch (error) {
-    console.error('Ошибка чтения localStorage:', error);
+    console.error(
+      'Storage read error:',
+      error
+    );
 
-    return fallback;
+    return null;
   }
 }
 
 /**
- * Удаление значения
+ * Сохранить данные
  */
-export function removeStorageItem(key) {
+export function setToStorage(
+  key,
+  value
+) {
   try {
-    localStorage.removeItem(key);
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
   } catch (error) {
-    console.error('Ошибка удаления localStorage:', error);
+    console.error(
+      'Storage save error:',
+      error
+    );
   }
 }
 
 /**
- * Очистка localStorage
+ * Очистка storage
  */
 export function clearStorage() {
-  try {
-    localStorage.clear();
-  } catch (error) {
-    console.error('Ошибка очистки localStorage:', error);
-  }
+  localStorage.clear();
 }

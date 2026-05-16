@@ -1,82 +1,157 @@
-import { getPolls, getVotes } from './client.js';
+import {
+  getFromStorage,
+  setToStorage
+} from '../utils/storage.js';
 
-import { getStorageItem, setStorageItem } from '../utils/storage.js';
+import { fetchPolls } from './client.js';
 
-import { generateId } from '../utils/helpers.js';
+const KEYS = {
+  POLLS: 'polls',
+  CREATED_POLLS: 'createdPolls',
+  VOTES: 'votes',
+  USER_VOTES: 'userVotes'
+};
 
 /**
- * Сохранение пользовательского голоса
+ * Инициализация polls
  */
-export function saveVote(pollId, selectedOptions) {
-  const votes = getStorageItem('votes', []);
+async function initializePolls() {
+  const existingPolls =
+    getFromStorage(KEYS.POLLS);
 
-  const newVote = {
-    id: generateId('vote'),
-    pollId,
-    selectedOptions,
-    createdAt: new Date().toISOString()
-  };
+  if (
+    existingPolls &&
+    existingPolls.length
+  ) {
+    return existingPolls;
+  }
 
-  votes.push(newVote);
+  const polls = await fetchPolls();
 
-  setStorageItem('votes', votes);
+  setToStorage(KEYS.POLLS, polls);
 
-  return newVote;
+  return polls;
 }
 
 /**
- * Проверка голосовал ли пользователь
- */
-export function hasUserVoted(pollId) {
-  const votes = getStorageItem('votes', []);
-
-  return votes.some((vote) => vote.pollId === pollId);
-}
-
-/**
- * Получение пользовательских голосов
- */
-export function getUserVotes() {
-  return getStorageItem('votes', []);
-}
-
-/**
- * Сохранение созданного опроса
- */
-export function saveCreatedPoll(pollData) {
-  const createdPolls = getStorageItem('createdPolls', []);
-
-  createdPolls.push(pollData);
-
-  setStorageItem('createdPolls', createdPolls);
-}
-
-/**
- * Получение пользовательских опросов
- */
-export function getCreatedPolls() {
-  return getStorageItem('createdPolls', []);
-}
-
-/**
- * Получение всех опросов
- * (серверные + локальные)
+ * Получить все опросы
  */
 export async function getAllPolls() {
-  const serverPolls = await getPolls();
-
-  const localPolls = getCreatedPolls();
-
-  return [...localPolls, ...serverPolls];
+  return (
+    (await initializePolls()) || []
+  );
 }
 
 /**
- * Получение всех голосов
+ * Получить созданные опросы
+ */
+export function getCreatedPolls() {
+  return (
+    getFromStorage(
+      KEYS.CREATED_POLLS
+    ) || []
+  );
+}
+
+/**
+ * Сохранить созданный опрос
+ */
+export function saveCreatedPoll(
+  poll
+) {
+  const polls =
+    getFromStorage(KEYS.POLLS) ||
+    [];
+
+  const createdPolls =
+    getFromStorage(
+      KEYS.CREATED_POLLS
+    ) || [];
+
+  polls.push(poll);
+  createdPolls.push(poll);
+
+  setToStorage(
+    KEYS.POLLS,
+    polls
+  );
+
+  setToStorage(
+    KEYS.CREATED_POLLS,
+    createdPolls
+  );
+}
+
+/**
+ * Получить все голоса
  */
 export async function getAllVotes() {
-  const serverVotes = await getVotes();
+  return (
+    getFromStorage(KEYS.VOTES) ||
+    []
+  );
+}
 
-  const localVotes = getUserVotes();
+/**
+ * Получить голоса пользователя
+ */
+export function getUserVotes() {
+  return (
+    getFromStorage(
+      KEYS.USER_VOTES
+    ) || []
+  );
+}
 
-  return [...localVotes, ...serverVotes];
+/**
+ * Сохранить голос
+ */
+export function saveVote(
+  pollId,
+  selectedOptions
+) {
+  const votes =
+    getFromStorage(KEYS.VOTES) ||
+    [];
+
+  const userVotes =
+    getFromStorage(
+      KEYS.USER_VOTES
+    ) || [];
+
+  votes.push({
+    id: crypto.randomUUID(),
+    pollId,
+    selectedOptions,
+    createdAt:
+      new Date().toISOString()
+  });
+
+  userVotes.push(pollId);
+
+  setToStorage(
+    KEYS.VOTES,
+    votes
+  );
+
+  setToStorage(
+    KEYS.USER_VOTES,
+    userVotes
+  );
+}
+
+/**
+ * Проверка голосования
+ */
+export function hasUserVoted(
+  pollId
+) {
+  const userVotes =
+    getFromStorage(
+      KEYS.USER_VOTES
+    ) || [];
+
+  return userVotes.includes(
+    pollId
+  );
 }

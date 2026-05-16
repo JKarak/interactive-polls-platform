@@ -1,77 +1,47 @@
 /**
- * Простое кеширование запросов
+ * Простая задержка
  */
-const cache = new Map();
+function delay(ms = 200) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 /**
- * Базовый fetch с retry и обработкой ошибок
+ * Mock polls
  */
-async function request(url, options = {}, retries = 2) {
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json'
+const mockPolls = [
+  {
+    id: 'poll_1',
+    question: 'Ваш любимый язык программирования?',
+    description: 'Выберите один вариант',
+    category: 'IT',
+    type: 'single',
+    createdAt: '2026-01-01',
+    expiresAt: '2099-01-01',
+    authorId: 'system',
+    options: [
+      {
+        id: 'option_1',
+        text: 'JavaScript'
       },
-      ...options
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP Error: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    if (retries > 0) {
-      return request(url, options, retries - 1);
-    }
-
-    console.error('Ошибка API запроса:', error);
-
-    throw error;
+      {
+        id: 'option_2',
+        text: 'Python'
+      },
+      {
+        id: 'option_3',
+        text: 'Java'
+      }
+    ]
   }
-}
+];
 
 /**
- * Получение данных с кешированием
+ * Получить опросы
  */
-export async function fetchWithCache(url) {
-  if (cache.has(url)) {
-    return cache.get(url);
-  }
+export async function fetchPolls() {
+  await delay();
 
-  const data = await request(url);
-
-  cache.set(url, data);
-
-  return data;
-}
-
-/**
- * Получение списка опросов
- */
-export async function getPolls() {
-  return fetchWithCache('/polls');
-}
-
-/**
- * Получение одного опроса
- */
-export async function getPollById(id) {
-  const polls = await getPolls();
-
-  return polls.find((poll) => poll.id === id);
-}
-
-/**
- * Получение пользователей
- */
-export async function getUsers() {
-  return fetchWithCache('http://localhost:3000/users');
-}
-
-/**
- * Получение голосов
- */
-export async function getVotes() {
-  return fetchWithCache('http://localhost:3000/votes');
+  return mockPolls;
 }
