@@ -474,7 +474,7 @@
         <p class="auth-error"></p>
       </form>
     </div>
-  `;const t=e.querySelector("form"),o=e.querySelector(".auth-error");return t.addEventListener("submit",n=>{n.preventDefault();const r=t[0].value.trim(),s=t[1].value.trim(),a=t[2].value.trim();try{ee({username:r,email:s,password:a}),v("/dashboard")}catch(i){o.textContent=i.message}}),e}const le={"/":J,"/poll":K,"/create":X,"/dashboard":se,"/login":ce,"/register":ie};function de(){return new URLSearchParams(window.location.search)}function ue(){return window.location.pathname}async function E(){const e=document.querySelector("#page-content");if(!e)return;const t=ue(),o=le[t];e.innerHTML="";try{if(!o){e.append(ae());return}const n=await o({query:de()});e.append(n),e.focus()}catch(n){console.error("Ошибка рендера страницы:",n),e.innerHTML=`
+  `;const t=e.querySelector("form"),o=e.querySelector(".auth-error");return t.addEventListener("submit",n=>{n.preventDefault();const r=t[0].value.trim(),s=t[1].value.trim(),a=t[2].value.trim();try{ee({username:r,email:s,password:a}),v("/dashboard")}catch(i){o.textContent=i.message}}),e}const le={"/":J,"/poll":K,"/create":X,"/dashboard":se,"/login":ce,"/register":ie};function de(){return new URLSearchParams(window.location.search)}function ue(){return window.location.pathname.replace("/interactive-polls-platform","")||"/"}async function E(){const e=document.querySelector("#page-content");if(!e)return;const t=ue(),o=le[t];e.innerHTML="";try{if(!o){e.append(ae());return}const n=await o({query:de()});e.append(n),e.focus()}catch(n){console.error("Ошибка рендера страницы:",n),e.innerHTML=`
       <section class="card">
         <h2>Ошибка загрузки страницы</h2>
 
@@ -563,4 +563,4 @@
       <footer id="footer"></footer>
     </div>
   `}function be(){const e=document.querySelector("#header"),t=document.querySelector("#footer");e.append(me()),t.append(he())}function _e(){ge(),be(),fe()}_e();
-//# sourceMappingURL=index-BRypqjKV.js.map
+//# sourceMappingURL=index-uf54yj9C.js.map
