@@ -27,9 +27,10 @@
 
 ```bash
 npm install
-
+```
 ## Запуск
 
 ```bash
 npm run server
 npm run dev
+```
