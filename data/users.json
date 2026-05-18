@@ -1,0 +1,14 @@
+[
+  {
+    "id": "user_1",
+    "nickname": "alexdev",
+    "email": "alex@example.com",
+    "avatar": "/avatars/default.png"
+  },
+  {
+    "id": "user_2",
+    "nickname": "frontend_master",
+    "email": "frontend@example.com",
+    "avatar": "/avatars/default.png"
+  }
+]
