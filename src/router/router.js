@@ -29,7 +29,18 @@ function getQueryParams() {
  * Получение pathname
  */
 function getPath() {
-  return window.location.pathname;
+  const base =
+    import.meta.env.PROD
+      ? '/interactive-polls-platform'
+      : '';
+
+  const path =
+    window.location.pathname.replace(
+      base,
+      ''
+    );
+
+  return path || '/';
 }
 
 /**
