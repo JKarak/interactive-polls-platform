@@ -77,6 +77,16 @@ export function PollCard(poll) {
       ${safePoll.question}
     </h2>
 
+    ${
+      safePoll.country
+        ? `
+          <p class="poll-card__country">
+            Страна: ${safePoll.country}
+          </p>
+        `
+        : ''
+    }
+
     <p class="poll-card__description">
       ${safePoll.description}
     </p>

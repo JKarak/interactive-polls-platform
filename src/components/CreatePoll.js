@@ -6,6 +6,8 @@ import { validatePollForm } from '../utils/validators.js';
 
 import { sanitizeString } from '../utils/sanitizer.js';
 
+import { fetchCountries } from '../api/countries.js';
+
 /**
  * Компонент создания опроса
  */
@@ -88,6 +90,21 @@ export function CreatePoll() {
 
       <div class="form-group">
         <label class="form-label">
+          Страна проведения
+        </label>
+
+        <select
+          name="country"
+          class="form-select"
+        >
+          <option value="">
+            Загрузка списка стран...
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
           Тип голосования
         </label>
 
@@ -154,6 +171,11 @@ export function CreatePoll() {
   const form =
     section.querySelector('form');
 
+  const countrySelect =
+  form.querySelector(
+    '[name="country"]'
+  );
+
   const optionsContainer =
     section.querySelector(
       '.create-poll__options'
@@ -163,6 +185,37 @@ export function CreatePoll() {
     section.querySelector(
       '.create-poll__add-option'
     );
+
+  async function loadCountries() {
+    const countries =
+      await fetchCountries();
+
+    countrySelect.innerHTML = `
+      <option value="">
+        Выберите страну
+      </option>
+    `;
+
+    countries.forEach(
+      (country) => {
+        const option =
+          document.createElement(
+            'option'
+          );
+
+        option.value = country;
+
+        option.textContent =
+          country;
+
+        countrySelect.append(
+          option
+        );
+      }
+    );
+  }
+
+  loadCountries();
 
   /**
    * Создание поля варианта ответа
@@ -312,6 +365,12 @@ export function CreatePoll() {
           sanitizeString(
             formData.get('category')
           ),
+
+        country:
+          sanitizeString(
+            formData.get('country')
+          ),
+
         type: sanitizeString(
           formData.get('type')
         ),
