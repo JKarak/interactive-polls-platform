@@ -12,9 +12,9 @@ export default defineConfig({
     
     proxy: {
       '/polls': {
-        target: 'http://localhost:3000', // Адрес вашего бэкенда
-        changeOrigin: true,              // Важно для корректной работы CORS
-        secure: false,                   // Если используете http (не https)
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false,
       },
     },
   },

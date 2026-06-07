@@ -1,0 +1,85 @@
+[
+  {
+    "id": "poll_1",
+    "question": "Какой язык программирования вы используете чаще всего?",
+    "description": "Выберите основной язык разработки",
+    "type": "single",
+    "country": "Germany",
+    "category": "Программирование",
+    "expiresAt": "2026-12-31T23:59:59.000Z",
+    "createdAt": "2026-01-10T10:00:00.000Z",
+    "authorId": "user_1",
+    "options": [
+      {
+        "id": "option_1",
+        "text": "JavaScript"
+      },
+      {
+        "id": "option_2",
+        "text": "Python"
+      },
+      {
+        "id": "option_3",
+        "text": "Java"
+      },
+      {
+        "id": "option_4",
+        "text": "C#"
+      }
+    ]
+  },
+  {
+    "id": "poll_2",
+    "question": "Какие технологии frontend вам нравятся?",
+    "description": "Можно выбрать несколько вариантов",
+    "type": "multiple",
+    "country": "Russia",
+    "category": "Frontend",
+    "expiresAt": "2026-10-01T12:00:00.000Z",
+    "createdAt": "2026-02-15T14:20:00.000Z",
+    "authorId": "user_2",
+    "options": [
+      {
+        "id": "option_1",
+        "text": "HTML5"
+      },
+      {
+        "id": "option_2",
+        "text": "CSS3"
+      },
+      {
+        "id": "option_3",
+        "text": "JavaScript"
+      },
+      {
+        "id": "option_4",
+        "text": "TypeScript"
+      }
+    ]
+  },
+  {
+    "id": "poll_3",
+    "question": "Какой формат обучения вы предпочитаете?",
+    "description": "Выберите наиболее удобный формат",
+    "type": "single",
+    "country": "United Kingdom",
+    "category": "Образование",
+    "expiresAt": "2025-12-01T00:00:00.000Z",
+    "createdAt": "2025-04-10T09:00:00.000Z",
+    "authorId": "user_1",
+    "options": [
+      {
+        "id": "option_1",
+        "text": "Онлайн"
+      },
+      {
+        "id": "option_2",
+        "text": "Офлайн"
+      },
+      {
+        "id": "option_3",
+        "text": "Смешанный"
+      }
+    ]
+  }
+]
